@@ -190,7 +190,7 @@ class EGITICLI:
                 self.run_load(args)
             
             case "show":
-                self.logger.error("WIP")
+                self.run_show(args)
             
             case _:
                 self.argument_parser.print_help()
@@ -234,6 +234,16 @@ class EGITICLI:
             adding_entries=templates_entries,
             force=args.load_force
         )
+    
+
+    def run_show(self, args: Namespace):
+        entries = self.gitignore_manager.get_entries(
+            comments=args.show_comments
+        )
+
+        for entry_i, entry in enumerate(entries, start=1):
+            color = '\033[0m' if entry.startswith('#') else '\033[32m'
+            print(f"{color}{entry_i}: {entry}\033[0m")
 
 
 def run_cli():
